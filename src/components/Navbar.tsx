@@ -3,28 +3,31 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+// import AccountCircle from '@mui/icons-material/AccountCircle';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import logo from '../assets/images/logo.svg';
+import Typography from '@mui/material/Typography';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const NavBar = () => {
-  const [anchorE, setAnchorE] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorE(event.currentTarget);
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
-    setAnchorE(null);
+    setAnchorEl(null);
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
+    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, boxShadow: 'none', backgroundColor: 'white', color: 'black' }}>
       <Toolbar>
-        <Box sx={{ flexGrow: 1 }}>
-          <img src={logo} alt="Company Logo" style={{ height: '50px' }} />
-        </Box>
+        <Typography variant="h6" noWrap component="div">
+          <img src={logo} alt="Company Logo" style={{ height: '60px' }} />
+        </Typography>
+        <Box sx={{ flexGrow: 1 }} />
         <IconButton
           size="large"
           edge="end"
@@ -34,11 +37,11 @@ const NavBar = () => {
           onClick={handleMenu}
           color="inherit"
         >
-          <AccountCircle />
+         hhhhhh
         </IconButton>
         <Menu
           id="menu-appbar"
-          anchorEl={anchorE}
+          anchorEl={anchorEl}
           anchorOrigin={{
             vertical: 'top',
             horizontal: 'right',
@@ -48,7 +51,7 @@ const NavBar = () => {
             vertical: 'top',
             horizontal: 'right',
           }}
-          open={Boolean(anchorE)}
+          open={Boolean(anchorEl)}
           onClose={handleClose}
         >
           <MenuItem onClick={handleClose}>Sign In</MenuItem>
