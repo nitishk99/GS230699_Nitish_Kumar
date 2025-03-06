@@ -14,7 +14,7 @@ interface AddNewStoreProps {
     handleAdd: (newRow: { id: string; store: string; city: string; state: string }) => void;
 }
 
-const AddNewStore= ({ open, handleClose, handleAdd }:AddNewStoreProps) => {
+const AddNewStore: React.FC<AddNewStoreProps> = ({ open, handleClose, handleAdd }) => {
     const [newRow, setNewRow] = useState({ id: '', store: '', city: '', state: '' });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

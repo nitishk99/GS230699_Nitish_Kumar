@@ -15,7 +15,7 @@ const App = () => {
         <NavBar />
         <LeftMenu />
         <Box
-          sx={{ backgroundColor: 'grey', flexGrow: 1, height: '100vh' }}
+          sx={{ backgroundColor: '#BCBCBC', flexGrow: 1, height: '100vh' }}
         >
           <Toolbar />
           <RouterComponent />

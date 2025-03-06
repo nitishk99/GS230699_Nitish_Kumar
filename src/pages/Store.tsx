@@ -1,28 +1,43 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import AddNewStore from '../components/AddNewStore';
+import firestore from '../config/FireBase';
+import { collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore';
 
-const initialRows = [
-    { id: 1, store: 'Store 1', city: 'City 1', state: 'State 1' },
-    { id: 2, store: 'Store 2', city: 'City 2', state: 'State 2' },
-    { id: 3, store: 'Store 3', city: 'City 3', state: 'State 3' },
-    { id: 4, store: 'Store 4', city: 'City 4', state: 'State 4' },
-    { id: 5, store: 'Store 5', city: 'City 5', state: 'State 5' },
-];
+interface StoreRow {
+    id: string;
+    store: string;
+    city: string;
+    state: string;
+}
 
 const Store = () => {
-    const [rows, setRows] = useState(initialRows);
+    const [rows, setRows] = useState<StoreRow[]>([]);
     const [open, setOpen] = useState(false);
 
-    const handleDelete = (id: GridRowId) => {
+    useEffect(() => {
+        const fetchData = async () => {
+            const querySnapshot = await getDocs(collection(firestore, "stores"));
+            const stores = querySnapshot.docs.map(doc => {
+                const data = doc.data();
+                return { id: doc.id, store: data.store, city: data.city, state: data.state } as StoreRow;
+            });
+            setRows(stores);
+        };
+
+        fetchData();
+    }, []);
+
+    const handleDelete = async (id: GridRowId) => {
+        await deleteDoc(doc(firestore, "stores", id.toString()));
         setRows((prevRows) => prevRows.filter((row) => row.id !== id));
     };
 
-    const handleClickOpen = () => {
+    const handleOpen = () => {
         setOpen(true);
     };
 
@@ -30,8 +45,9 @@ const Store = () => {
         setOpen(false);
     };
 
-    const handleAdd = (newRow: { id: string; store: string; city: string; state: string }) => {
-        const newEntry = { ...newRow, id: parseInt(newRow.id) };
+    const handleAddStore = async (newRow: { id: string; store: string; city: string; state: string }) => {
+        const docRef = await addDoc(collection(firestore, "stores"), newRow);
+        const newEntry = { ...newRow, id: docRef.id };
         setRows([...rows, newEntry]);
         handleClose();
     };
@@ -69,20 +85,24 @@ const Store = () => {
                     initialState={{
                         pagination: {
                             paginationModel: {
-                                pageSize: 9,
+                                pageSize: 6,
                             },
                         },
                     }}
-                    pageSizeOptions={[9]}
+                    pageSizeOptions={[6]}
                     disableRowSelectionOnClick
                 />
             </Box>
-            <Box sx={{ padding: '10px', display: 'flex', justifyContent: 'flex-end' }}>
-                <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            <Box sx={{ padding: '10px', display: 'flex', justifyContent: 'flex-start' }}>
+                <Button
+                    variant="contained"
+                    sx={{ backgroundColor: '#F1ACA5', '&:hover': { backgroundColor: '#F1ACA5' }, color: 'black' }}
+                    onClick={handleOpen}
+                >
                     New Store
                 </Button>
             </Box>
-            <AddNewStore open={open} handleClose={handleClose} handleAdd={handleAdd} />
+            <AddNewStore open={open} handleClose={handleClose} handleAdd={handleAddStore} />
         </Box>
     );
 };
