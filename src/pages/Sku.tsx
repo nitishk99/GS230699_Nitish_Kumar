@@ -7,7 +7,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import AddNewData from "../components/AddNewData";
 import DataGrid from "../components/DataGrid";
 import firestore from "../config/FireBase";
-import { StoreStyles } from "./StoreStyles";
+import { SkuStyles } from "./SkuStyles";
 import {
     collection,
     getDocs,
@@ -23,14 +23,14 @@ interface SkuRow {
     cost: string;
 }
 
-const Sku = () => {
+const Store = () => {
     const [rows, setRows] = useState<SkuRow[]>([]);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        const fetchSkuData = async () => {
+        const fetchStoreData = async () => {
             const querySnapshot = await getDocs(collection(firestore, "sku"));
-            const stores = querySnapshot.docs.map((doc) => {
+            const stores = querySnapshot.docs.map((doc, index) => {
                 const data = doc.data();
                 return {
                     id: data.id,
@@ -42,7 +42,7 @@ const Sku = () => {
             setRows(stores);
         };
 
-        fetchSkuData();
+        fetchStoreData();
     }, []);
 
     const handleDelete = async (id: GridRowId) => {
@@ -58,14 +58,9 @@ const Sku = () => {
         setOpen(false);
     };
 
-    const handleAddStore = async (newRow: {
-        id: string;
-        sku: string;
-        price: string;
-        cost: string;
-    }) => {
+    const handleAddSku = async (newRow: SkuRow) => {
         const docRef = await addDoc(collection(firestore, "sku"), newRow);
-        const newEntry: SkuRow = { ...newRow, id: docRef.id };
+        const newEntry = { ...newRow, id: docRef.id };
         setRows([...rows, newEntry]);
         handleClose();
     };
@@ -82,6 +77,11 @@ const Sku = () => {
                 />
             ),
         },
+        {
+            field: "id",
+            headerName: "S.No",
+            width: 90,
+        },
         { field: "sku", headerName: "SKU", width: 150, editable: true },
         { field: "price", headerName: "Price", width: 150, editable: true },
         { field: "cost", headerName: "Cost", width: 150, editable: true },
@@ -94,30 +94,30 @@ const Sku = () => {
     ];
 
     return (
-        <Box sx={StoreStyles.container}>
-            <Box sx={StoreStyles.datagridContainer}>
+        <Box sx={SkuStyles.container}>
+            <Box sx={SkuStyles.datagridContainer}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
                 />
             </Box>
-            <Box sx={StoreStyles.buttonContainer}>
+            <Box sx={SkuStyles.buttonContainer}>
                 <Button
                     variant="contained"
-                    sx={StoreStyles.button}
+                    sx={SkuStyles.button}
                     onClick={handleOpen}
                 >
-                    New SKU
+                    New Store
                 </Button>
             </Box>
             <AddNewData
                 open={open}
                 handleClose={handleClose}
-                handleAdd={handleAddStore}
+                handleAdd={handleAddSku}
                 fields={fields}
             />
         </Box>
     );
 };
 
-export default Sku;
+export default Store;

@@ -33,7 +33,7 @@ const Store = () => {
             const stores = querySnapshot.docs.map((doc, index) => {
                 const data = doc.data();
                 return {
-                    id: doc.id,
+                    id: data.id,
                     store: data.store,
                     city: data.city,
                     state: data.state,
@@ -58,12 +58,7 @@ const Store = () => {
         setOpen(false);
     };
 
-    const handleAddStore = async (newRow: {
-        id: string;
-        store: string;
-        city: string;
-        state: string;
-    }) => {
+    const handleAddStore = async (newRow:StoreRow) => {
         const docRef = await addDoc(collection(firestore, "stores"), newRow);
         const newEntry = { ...newRow, id: docRef.id };
         setRows([...rows, newEntry]);
@@ -83,7 +78,7 @@ const Store = () => {
             ),
         },
         {
-            field: "s.no",
+            field: "id",
             headerName: "S.No",
             width: 90,
         },
