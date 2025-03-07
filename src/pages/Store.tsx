@@ -83,7 +83,7 @@ const Store = () => {
             valueGetter: (params: any) => params.node.rowIndex + 1,
             width: 60,
         },
-        { field: "store", headerName: "Store", width: 140 },
+        { field: "store", headerName: "Store", width: 140 ,resizable: true},
         { field: "city", headerName: "City", width: 140 },
         { field: "state", headerName: "State", width: 140 },
 

@@ -30,7 +30,7 @@ const LeftMenu = () => {
             </ListItemIcon>
             <ListItemText primary="SKU" />
           </ListItem>
-          <ListItem component={Link} to="/test">
+          <ListItem component={Link} to="/planning">
             <ListItemIcon sx={LeftMenuStyles.iconContainer}>
               <PollOutlinedIcon />
             </ListItemIcon>
