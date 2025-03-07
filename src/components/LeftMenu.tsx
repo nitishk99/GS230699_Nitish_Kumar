@@ -24,7 +24,7 @@ const LeftMenu = () => {
             </ListItemIcon>
             <ListItemText primary="Store" />
           </ListItem>
-          <ListItem component={Link} to="/test">
+          <ListItem component={Link} to="/sku">
             <ListItemIcon sx={LeftMenuStyles.iconContainer}>
               <PollOutlinedIcon />
             </ListItemIcon>

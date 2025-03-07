@@ -16,37 +16,37 @@ import {
     doc,
 } from "firebase/firestore";
 
-interface StoreRow {
+interface SkuRow {
     id: string;
-    store: string;
-    city: string;
-    state: string;
+    sku: string;
+    price: string;
+    cost: string;
 }
 
-const Store = () => {
-    const [rows, setRows] = useState<StoreRow[]>([]);
+const Sku = () => {
+    const [rows, setRows] = useState<SkuRow[]>([]);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        const fetchStoreData = async () => {
-            const querySnapshot = await getDocs(collection(firestore, "stores"));
-            const stores = querySnapshot.docs.map((doc, index) => {
+        const fetchSkuData = async () => {
+            const querySnapshot = await getDocs(collection(firestore, "sku"));
+            const stores = querySnapshot.docs.map((doc) => {
                 const data = doc.data();
                 return {
-                    id: doc.id,
-                    store: data.store,
-                    city: data.city,
-                    state: data.state,
-                } as StoreRow;
+                    id: data.id,
+                    sku: data.sku,
+                    price: data.price,
+                    cost: data.cost,
+                } as SkuRow;
             });
             setRows(stores);
         };
 
-        fetchStoreData();
+        fetchSkuData();
     }, []);
 
     const handleDelete = async (id: GridRowId) => {
-        await deleteDoc(doc(firestore, "stores", id.toString()));
+        await deleteDoc(doc(firestore, "sku", id.toString()));
         setRows((prevRows) => prevRows.filter((row) => row.id !== id));
     };
 
@@ -60,12 +60,12 @@ const Store = () => {
 
     const handleAddStore = async (newRow: {
         id: string;
-        store: string;
-        city: string;
-        state: string;
+        sku: string;
+        price: string;
+        cost: string;
     }) => {
-        const docRef = await addDoc(collection(firestore, "stores"), newRow);
-        const newEntry = { ...newRow, id: docRef.id };
+        const docRef = await addDoc(collection(firestore, "sku"), newRow);
+        const newEntry: SkuRow = { ...newRow, id: docRef.id };
         setRows([...rows, newEntry]);
         handleClose();
     };
@@ -82,20 +82,15 @@ const Store = () => {
                 />
             ),
         },
-        {
-            field: "s.no",
-            headerName: "S.No",
-            width: 90,
-        },
-        { field: "store", headerName: "Store", width: 150, editable: true },
-        { field: "city", headerName: "City", width: 150, editable: true },
-        { field: "state", headerName: "State", width: 150, editable: true },
+        { field: "sku", headerName: "SKU", width: 150, editable: true },
+        { field: "price", headerName: "Price", width: 150, editable: true },
+        { field: "cost", headerName: "Cost", width: 150, editable: true },
     ];
 
     const fields = [
-        { name: "store", label: "Store", type: "text" },
-        { name: "city", label: "City", type: "text" },
-        { name: "state", label: "State", type: "text" },
+        { name: "sku", label: "SKU", type: "text" },
+        { name: "price", label: "Price", type: "text" },
+        { name: "cost", label: "Cost", type: "text" },
     ];
 
     return (
@@ -112,7 +107,7 @@ const Store = () => {
                     sx={StoreStyles.button}
                     onClick={handleOpen}
                 >
-                    New Store
+                    New SKU
                 </Button>
             </Box>
             <AddNewData
@@ -125,4 +120,4 @@ const Store = () => {
     );
 };
 
-export default Store;
+export default Sku;
