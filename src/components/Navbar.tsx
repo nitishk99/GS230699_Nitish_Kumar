@@ -10,7 +10,7 @@ import logo from '../assets/images/logo.svg';
 import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 
-const NavBar = () => {
+const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -62,4 +62,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default Navbar;
