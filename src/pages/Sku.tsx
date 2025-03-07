@@ -2,7 +2,6 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { GridColDef, GridRowId } from "@mui/x-data-grid";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import AddNewData from "../components/AddNewData";
 import DataGrid from "../components/DataGrid";
@@ -15,6 +14,7 @@ import {
     deleteDoc,
     doc,
 } from "firebase/firestore";
+import IconButton from "@mui/material/IconButton";
 
 interface SkuRow {
     id: string;
@@ -23,30 +23,30 @@ interface SkuRow {
     cost: string;
 }
 
-const Store = () => {
+const Sku = () => {
     const [rows, setRows] = useState<SkuRow[]>([]);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        const fetchStoreData = async () => {
+        const fetchSkuData = async () => {
             const querySnapshot = await getDocs(collection(firestore, "sku"));
-            const stores = querySnapshot.docs.map((doc, index) => {
+            const skus = querySnapshot.docs.map((doc) => {
                 const data = doc.data();
                 return {
-                    id: data.id,
+                    id: doc.id,
                     sku: data.sku,
                     price: data.price,
                     cost: data.cost,
                 } as SkuRow;
             });
-            setRows(stores);
+            setRows(skus);
         };
 
-        fetchStoreData();
+        fetchSkuData();
     }, []);
 
-    const handleDelete = async (id: GridRowId) => {
-        await deleteDoc(doc(firestore, "sku", id.toString()));
+    const handleDelete = async (id: string) => {
+        await deleteDoc(doc(firestore, "sku", id));
         setRows((prevRows) => prevRows.filter((row) => row.id !== id));
     };
 
@@ -65,26 +65,20 @@ const Store = () => {
         handleClose();
     };
 
-    const columns: GridColDef[] = [
+    const columns: any[] = [
         {
-            field: "delete",
+            field: "actions",
             headerName: "",
-            width: 110,
-            renderCell: (params) => (
-                <DeleteOutlineOutlinedIcon
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleDelete(params.id)}
-                />
+            cellRenderer: (params: any) => (<IconButton onClick={() => handleDelete(params.data.id)} sx={{ color: '#BCBCBC', padding: 0, margin: 0 }}>
+                <DeleteOutlineOutlinedIcon color="action" />
+            </IconButton>
             ),
+            width: 40
         },
-        {
-            field: "id",
-            headerName: "S.No",
-            width: 90,
-        },
-        { field: "sku", headerName: "SKU", width: 150, editable: true },
-        { field: "price", headerName: "Price", width: 150, editable: true },
-        { field: "cost", headerName: "Cost", width: 150, editable: true },
+
+        { field: "sku", headerName: "SKU", width: 140 },
+        { field: "price", headerName: "Price", width: 140 },
+        { field: "cost", headerName: "Cost", width: 140 },
     ];
 
     const fields = [
@@ -107,7 +101,7 @@ const Store = () => {
                     sx={SkuStyles.button}
                     onClick={handleOpen}
                 >
-                    New Store
+                    New SKU
                 </Button>
             </Box>
             <AddNewData
@@ -120,4 +114,4 @@ const Store = () => {
     );
 };
 
-export default Store;
+export default Sku;

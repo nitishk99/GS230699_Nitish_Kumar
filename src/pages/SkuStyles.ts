@@ -4,7 +4,8 @@ export const SkuStyles = {
         margin: '20px',
         height: '85vh',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        overflow: 'auto',
     },
     datagridContainer: {
         flexGrow: 1

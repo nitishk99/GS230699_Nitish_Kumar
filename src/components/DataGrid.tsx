@@ -1,28 +1,37 @@
-import { DataGrid as MuiDataGrid, GridColDef } from '@mui/x-data-grid';
+import React, { useMemo } from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import {
+  ClientSideRowModelModule,
+} from "ag-grid-community";
 
 interface DataGridProps {
-    rows: any[];
-    columns: GridColDef[];
-    pageSize?: number;
-    pageSizeOptions?: number[];
+  rows: any[];
+  columns: any[];
 }
 
-const DataGrid = ({ rows, columns, pageSize = 8, pageSizeOptions = [5, 10, 50, 100] }: DataGridProps) => {
-    return (
-        <MuiDataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-                pagination: {
-                    paginationModel: {
-                        pageSize: pageSize,
-                    },
-                },
-            }}
-            pageSizeOptions={pageSizeOptions}
-            disableRowSelectionOnClick
-        />
-    );
+const DataGrid = ({ rows, columns }: DataGridProps) => {
+
+  const defaultColDef = useMemo(() => {
+    return {
+      initialWidth: 200,
+      wrapHeaderText: true,
+      autoHeaderHeight: true,
+    };
+  }, []);
+
+  return (
+
+    <AgGridReact
+      columnDefs={columns}
+      modules={[ClientSideRowModelModule]}
+      rowData={rows}
+      defaultColDef={defaultColDef}
+
+    />
+
+  );
 };
 
 export default DataGrid;
