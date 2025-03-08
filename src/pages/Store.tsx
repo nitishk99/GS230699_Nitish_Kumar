@@ -1,8 +1,6 @@
-import * as React from "react";
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { GridColDef } from "@mui/x-data-grid";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import IconButton from "@mui/material/IconButton";
 import AddNewData from "../components/AddNewData";
@@ -27,6 +25,8 @@ interface StoreRow {
 const Store = () => {
     const [rows, setRows] = useState<StoreRow[]>([]);
     const [open, setOpen] = useState(false);
+
+    console.log("rrrrrrrrrrrrrrrrrr",rows)
 
     useEffect(() => {
         const fetchStoreData = async () => {
@@ -123,3 +123,5 @@ const Store = () => {
 };
 
 export default Store;
+
+
