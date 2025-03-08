@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -25,8 +25,6 @@ interface StoreRow {
 const Store = () => {
     const [rows, setRows] = useState<StoreRow[]>([]);
     const [open, setOpen] = useState(false);
-
-    console.log("rrrrrrrrrrrrrrrrrr",rows)
 
     useEffect(() => {
         const fetchStoreData = async () => {
@@ -75,17 +73,19 @@ const Store = () => {
                 <DeleteOutlineOutlinedIcon color="action" />
             </IconButton>
             ),
-            width: 40
+            width: 40,
+            editable: false,
         },
         {
             field: "sno",
             headerName: "S.No",
             valueGetter: (params: any) => params.node.rowIndex + 1,
             width: 60,
+            editable: false,
         },
-        { field: "store", headerName: "Store", width: 140 ,resizable: true},
-        { field: "city", headerName: "City", width: 140 },
-        { field: "state", headerName: "State", width: 140 },
+        { field: "store", headerName: "Store", width: 140, resizable: true, editable: true },
+        { field: "city", headerName: "City", width: 140, editable: true },
+        { field: "state", headerName: "State", width: 140, editable: true },
 
     ];
 
@@ -123,5 +123,3 @@ const Store = () => {
 };
 
 export default Store;
-
-

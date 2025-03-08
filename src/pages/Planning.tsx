@@ -1,12 +1,10 @@
-import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import DataGrid from '../components/DataGrid';
 import { SkuStyles } from "./SkuStyles";
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '../redux/store';
-import { fetchSkus } from '../redux/thunks/skuThunks';
-import { fetchStores } from '../redux/thunks/storeThunks';
+import { useSelector } from 'react-redux';
+import { RootState, } from '../redux/store';
+
 
 const Planning = () => {
     interface PlanningData {
@@ -17,27 +15,15 @@ const Planning = () => {
         cost: string;
         city: string;
         state: string;
-        [key: string]: any;
+        [key: string]: string | number;
     }
 
     const [rows, setRows] = useState<PlanningData[]>([]);
     const [columns, setColumns] = useState<any[]>([]);
 
-    const dispatch: AppDispatch = useDispatch();
-
     // Get the Redux store data
     const skus = useSelector((state: RootState) => state.skus.skus);
     const stores = useSelector((state: RootState) => state.stores.stores);
-
-    useEffect(() => {
-        console.log("Stores from Redux:", stores);
-        console.log("SKUs from Redux:", skus);
-    }, [stores, skus]);
-
-    useEffect(() => {
-        dispatch(fetchSkus());
-        dispatch(fetchStores());
-    }, [dispatch]);
 
     useEffect(() => {
         if (skus.length > 0 && stores.length > 0) {
@@ -63,60 +49,91 @@ const Planning = () => {
         setColumns(mergeColumns);
     }, []);
 
-    const generateWeekColumns = (weekNumber: number) => [
-        { field: `salesUnitsWeek${weekNumber}`, headerName: "Sales Units", editable: true, width: 100 },
-        { field: `salesDollarsWeek${weekNumber}`, headerName: "Sales Dollars", valueGetter: (params: { data: { [x: string]: number; price: number; }; }) => params.data[`salesUnitsWeek${weekNumber}`] * params.data.price, valueFormatter: (params: { value: number; }) => `$${params.value.toFixed(2)}`, width: 100 },
-        { field: `gmDollarsWeek${weekNumber}`, headerName: "GM Dollars", valueGetter: (params: { data: { [x: string]: number; price: number; cost: number; }; }) => (params.data[`salesUnitsWeek${weekNumber}`] * params.data.price) - (params.data[`salesUnitsWeek${weekNumber}`] * params.data.cost), valueFormatter: (params: { value: number; }) => `$${params.value.toFixed(2)}`, width: 100 },
-        {
-            field: `gmPercentWeek${weekNumber}`,
-            headerName: "GM %",
-            valueGetter: (params: { data: { [x: string]: number; price: number; cost: number; }; }) => {
-                const salesDollars = params.data[`salesUnitsWeek${weekNumber}`] * params.data.price;
-                const gmDollars = salesDollars - (params.data[`salesUnitsWeek${weekNumber}`] * params.data.cost);
-                return salesDollars ? (gmDollars / salesDollars) * 100 : 0;
+    const monthNames = ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"];
+
+    const generateWeekColumns = (weekNumber: number, monthName: string) => {
+        const salesUnitsField = `salesUnitsWeek${weekNumber}${monthName}`;
+        const salesDollarsField = `salesDollarsWeek${weekNumber}${monthName}`;
+        const gmDollarsField = `gmDollarsWeek${weekNumber}${monthName}`;
+        const gmPercentField = `gmPercentWeek${weekNumber}${monthName}`;
+
+        return [
+            {
+                field: salesUnitsField,
+                headerName: "Sales Units",
+                editable: true,
+                width: 100,
+                type: 'number',
+                valueParser: (params: { newValue: any; }) => Number(params.newValue),
             },
-            valueFormatter: (params: { value: number; }) => `${params.value.toFixed(2)}%`,
-            cellStyle: (params: { value: any; }) => {
-                const value = params.value;
-                if (value >= 40) {
-                    return { backgroundColor: 'green', color: 'white' };
-                } else if (value >= 10) {
-                    return { backgroundColor: 'yellow', color: 'black' };
-                } else if (value > 5) {
-                    return { backgroundColor: 'orange', color: 'black' };
-                } else {
-                    return { backgroundColor: 'red', color: 'white' };
-                }
+            {
+                field: salesDollarsField,
+                headerName: "Sales Dollars",
+                valueGetter: (params: { data: PlanningData }) => {
+                    const salesUnits = Number(params.data[salesUnitsField]) || 0;
+                    const price = Number(params.data.price) || 0;
+                    return salesUnits * price;
+                },
+                valueFormatter: (params: { value: number; }) => `$${params.value?.toFixed(2)}`,
+                width: 100,
             },
-            width: 100
-        },
-    ];
+            {
+                field: gmDollarsField,
+                headerName: "GM Dollars",
+                valueGetter: (params: { data: PlanningData }) => {
+                    const salesUnits = Number(params.data[salesUnitsField]) || 0;
+                    const price = Number(params.data.price) || 0;
+                    const cost = Number(params.data.cost) || 0;
+                    const salesDollars = salesUnits * price;
+                    return salesDollars - (salesUnits * cost);
+                },
+                valueFormatter: (params: { value: number; }) => `$${params.value?.toFixed(2)}`,
+                width: 100,
+            },
+            {
+                field: gmPercentField,
+                headerName: "GM %",
+                valueGetter: (params: { data: PlanningData }) => {
+                    const salesUnits = Number(params.data[salesUnitsField]) || 0;
+                    const price = Number(params.data.price) || 0;
+                    const cost = Number(params.data.cost) || 0;
+                    const salesDollars = salesUnits * price;
+                    const gmDollars = salesDollars - (salesUnits * cost);
+                    return salesDollars ? (gmDollars / salesDollars) * 100 : 0;
+                },
+                valueFormatter: (params: { value: number; }) => `${params.value?.toFixed(2)}%`,
+                cellStyle: (params: { value: any; }) => {
+
+                    const value = params.value;
+                    if (value >= 40) {
+                        return { backgroundColor: '#3CB043', color: 'black' };
+                    } else if (value >= 10) {
+                        return { backgroundColor: '#FDD128', color: 'black' };
+                    } else if (value > 5) {
+                        return { backgroundColor: '#F98129', color: 'black' };
+                    } else if (value >= 0) {
+                        return { backgroundColor: '#FF817E', color: 'black' };
+                    }
+                },
+                width: 100
+            },
+        ];
+    };
 
     const generateMonthColumns = (monthName: string) => ({
         headerName: monthName,
         children: [
-            { headerName: "Week 1", children: generateWeekColumns(1) },
-            { headerName: "Week 2", children: generateWeekColumns(2) },
-            { headerName: "Week 3", children: generateWeekColumns(3) },
-            { headerName: "Week 4", children: generateWeekColumns(4) },
+            { headerName: "Week 1", children: generateWeekColumns(1, monthName) },
+            { headerName: "Week 2", children: generateWeekColumns(2, monthName) },
+            { headerName: "Week 3", children: generateWeekColumns(3, monthName) },
+            { headerName: "Week 4", children: generateWeekColumns(4, monthName) },
         ],
     });
 
     const mergeColumns = [
         { field: "store", headerName: "Store", width: 100 },
         { field: "sku", headerName: "SKU", width: 100 },
-        generateMonthColumns("Feb"),
-        generateMonthColumns("Mar"),
-        generateMonthColumns("Apr"),
-        generateMonthColumns("May"),
-        generateMonthColumns("Jun"),
-        generateMonthColumns("Jul"),
-        generateMonthColumns("Aug"),
-        generateMonthColumns("Sep"),
-        generateMonthColumns("Oct"),
-        generateMonthColumns("Nov"),
-        generateMonthColumns("Dec"),
-        generateMonthColumns("Jan"),
+        ...monthNames.map(monthName => generateMonthColumns(monthName))
     ];
 
     return (
