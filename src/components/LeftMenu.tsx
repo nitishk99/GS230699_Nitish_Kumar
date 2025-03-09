@@ -4,9 +4,11 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
 import { Toolbar, Box } from "@mui/material";
-import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
+// import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
+import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
 import { LeftMenuStyles } from "./LeftMenuStyles";
 
 const LeftMenu = () => {
@@ -21,7 +23,7 @@ const LeftMenu = () => {
     <Drawer sx={LeftMenuStyles.drawer} variant="permanent">
       <Box>
         <Toolbar />
-        <List>
+        <List sx={LeftMenuStyles.listContainer}>
           <ListItem
             onClick={() => handleNavigation("/store")}
             sx={{
@@ -44,7 +46,7 @@ const LeftMenu = () => {
             }}
           >
             <ListItemIcon sx={LeftMenuStyles.iconContainer}>
-              <PollOutlinedIcon />
+              <CategoryOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary="SKU" />
           </ListItem>
@@ -57,11 +59,11 @@ const LeftMenu = () => {
             }}
           >
             <ListItemIcon sx={LeftMenuStyles.iconContainer}>
-              <PollOutlinedIcon />
+              <BarChartOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary="Planning" />
           </ListItem>
-           {/* Feature not implemented yet
+          {/* Feature not implemented yet
            <ListItem
             onClick={() => handleNavigation("/chart")}
             sx={{
