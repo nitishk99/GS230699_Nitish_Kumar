@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface SkuState {
   skus: any[];
@@ -13,7 +13,7 @@ const initialState: SkuState = {
 };
 
 const skuSlice = createSlice({
-  name: 'skus',
+  name: "skus",
   initialState,
   reducers: {
     setSkus: (state, action: PayloadAction<any[]>) => {

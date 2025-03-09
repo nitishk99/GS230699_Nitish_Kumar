@@ -1,21 +1,18 @@
-import { Link } from 'react-router-dom';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
-import { Toolbar, Box } from '@mui/material';
-import PollOutlinedIcon from '@mui/icons-material/PollOutlined';
-import { LeftMenuStyles } from './LeftMenuStyles';
+import { Link } from "react-router-dom";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
+import { Toolbar, Box } from "@mui/material";
+import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
+import { LeftMenuStyles } from "./LeftMenuStyles";
 
 const LeftMenu = () => {
   return (
-    <Drawer
-      sx={LeftMenuStyles.drawer}
-      variant="permanent"
-    >
-      <Box >
+    <Drawer sx={LeftMenuStyles.drawer} variant="permanent">
+      <Box>
         <Toolbar />
         <List>
           <ListItem component={Link} to="/store">

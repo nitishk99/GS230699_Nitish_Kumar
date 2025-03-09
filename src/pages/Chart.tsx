@@ -1,9 +1,7 @@
-import React, { useState, Fragment, useEffect } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { AgCharts } from "ag-charts-react";
 import {
   AgCartesianChartOptions,
-  AgBarSeriesOptions,
-  AgLineSeriesOptions,
   AgCartesianAxisOptions,
 } from "ag-charts-community";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
@@ -25,17 +23,21 @@ const dummyData: DataItem[] = [
   { store: "Store C", week: 1, sku: "SKU1", gmDollars: 130, salesDollars: 650 },
   { store: "Store C", week: 2, sku: "SKU2", gmDollars: 140, salesDollars: 700 },
 ];
-  
+
 const Chart = () => {
   const [selectedStore, setSelectedStore] = useState<string>("Store A");
   const [chartOptions, setChartOptions] = useState<AgCartesianChartOptions>({});
 
   useEffect(() => {
     const processData = () => {
-      const storeData = dummyData.filter((item) => item.store === selectedStore);
+      const storeData = dummyData.filter(
+        (item) => item.store === selectedStore
+      );
 
       const aggregatedData = storeData.reduce((acc: any, item: any) => {
-        const weekExists = acc.find((weekData: any) => weekData.week === item.week);
+        const weekExists = acc.find(
+          (weekData: any) => weekData.week === item.week
+        );
         if (weekExists) {
           weekExists.gmDollars += item.gmDollars;
           weekExists.salesDollars += item.salesDollars;
