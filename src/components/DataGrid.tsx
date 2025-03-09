@@ -14,18 +14,14 @@ ModuleRegistry.registerModules([
 interface DataGridProps {
     rows: any[];
     columns: any[];
-    onGridReady?: (params: any) => void;
-    onCellValueChanged?: (params: any) => void;
 }
 
-const DataGrid = ({ rows, columns, onGridReady, onCellValueChanged }: DataGridProps) => {
+const DataGrid = ({ rows, columns }: DataGridProps) => {
     const defaultColDef = useMemo(() => {
         return {
             initialWidth: 200,
             wrapHeaderText: true,
-            sortable: true,
-            resizable: true,
-            filter: true,
+            
         };
     }, []);
 
@@ -40,11 +36,6 @@ const DataGrid = ({ rows, columns, onGridReady, onCellValueChanged }: DataGridPr
                 rowData={rows}
                 defaultColDef={defaultColDef}
                 headerHeight={50}
-                rowSelection='single'
-                animateRows={true}
-                getRowId={gridOptions.getRowId}
-                onGridReady={onGridReady}
-                onCellValueChanged={onCellValueChanged}
             />
         </Box>
     );
