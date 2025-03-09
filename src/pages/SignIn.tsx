@@ -20,11 +20,11 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: any) => state.auth.currentUser);
 
+  // Handle form submission
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const user = await signIn(email, password);
-      console.log("uuuuuuuuuuuuuuu",user);
       dispatch(setUser(user));
       navigate("/store");
     } catch (err) {
@@ -36,9 +36,34 @@ const SignIn = () => {
     }
   };
 
+  // Redirect to store page if the user is already authenticated
   if (currentUser) {
     navigate("/store");
   }
+
+  // Create form fields
+  const formFields = [
+    {
+      id: "email",
+      type: "email",
+      name: "email",
+      label: "Email",
+      placeholder: "your@email.com",
+      autoComplete: "email",
+      value: email,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value),
+    },
+    {
+      id: "password",
+      type: "password",
+      name: "password",
+      label: "Password",
+      placeholder: "••••••",
+      autoComplete: "current-password",
+      value: password,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value),
+    },
+  ];
 
   return (
     <Box>
@@ -66,37 +91,23 @@ const SignIn = () => {
               gap: 2,
             }}
           >
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                id="email"
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                autoComplete="email"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <TextField
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                required
-                fullWidth
-                variant="outlined"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </FormControl>
+            {formFields.map((field) => (
+              <FormControl key={field.id}>
+                <FormLabel htmlFor={field.id}>{field.label}</FormLabel>
+                <TextField
+                  id={field.id}
+                  type={field.type}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  autoComplete={field.autoComplete}
+                  required
+                  fullWidth
+                  variant="outlined"
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+            ))}
             <Button type="submit" fullWidth variant="contained">
               Sign in
             </Button>

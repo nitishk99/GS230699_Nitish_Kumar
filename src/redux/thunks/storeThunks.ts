@@ -3,6 +3,7 @@ import { setStores } from "../slice/storeSclice";
 import { collection, getDocs } from "firebase/firestore";
 import { AppDispatch } from "../store";
 
+// Fetch Stores from Firebase db
 export const fetchStores = () => {
   return async (dispatch: AppDispatch) => {
     try {

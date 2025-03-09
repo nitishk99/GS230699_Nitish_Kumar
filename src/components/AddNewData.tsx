@@ -30,11 +30,13 @@ const AddNewData: React.FC<AddNewDataProps> = ({
 }) => {
   const [newRow, setNewRow] = useState<{ [key: string]: any }>({});
 
+  // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewRow((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  // Handle form submission
   const handleSubmit = () => {
     handleAdd(newRow);
     setNewRow({});

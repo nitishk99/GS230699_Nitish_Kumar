@@ -22,6 +22,7 @@ interface SkuRow {
 const cellStyle = {
   display: "flex",
   alignItems: "center",
+  color: "#555555",
 };
 
 const Sku = () => {
@@ -31,20 +32,24 @@ const Sku = () => {
   // Get skus from the Redux store
   const skus = useSelector((state: RootState) => state.skus.skus);
 
+  // Deleting a SKU
   const handleDelete = async (id: string) => {
     await deleteDoc(doc(firestore, "sku", id));
     const updatedSkus = skus.filter((sku) => sku.id !== id);
     dispatch(setSkus(updatedSkus));
   };
 
+  // Opening the add SKU dialog
   const handleOpen = () => {
     setOpen(true);
   };
 
+  // Closing the add SKU dialog
   const handleClose = () => {
     setOpen(false);
   };
 
+  // Adding a new SKU
   const handleAddSku = async (newRow: SkuRow) => {
     const docRef = await addDoc(collection(firestore, "sku"), newRow);
     const newEntry = { ...newRow, id: docRef.id };
@@ -53,6 +58,7 @@ const Sku = () => {
     handleClose();
   };
 
+  // Create columns for the data grid
   const columns: any[] = [
     {
       field: "actions",
@@ -68,12 +74,12 @@ const Sku = () => {
       width: 50,
       cellStyle: cellStyle,
     },
-
     { field: "sku", headerName: "SKU", width: 140, cellStyle: cellStyle },
     { field: "price", headerName: "Price", width: 140, cellStyle: cellStyle },
     { field: "cost", headerName: "Cost", width: 140, cellStyle: cellStyle },
   ];
 
+  // Create fields for the add SKU form
   const fields = [
     { name: "sku", label: "SKU", type: "text" },
     { name: "price", label: "Price", type: "text" },

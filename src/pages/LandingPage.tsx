@@ -9,17 +9,19 @@ import Navbar from "../components/Navbar";
 import LeftMenu from "../components/LeftMenu";
 import Toolbar from "@mui/material/Toolbar";
 import PageRouter from "../router/PageRouter";
-import SignIn from "./SignIn"; // Import SignIn
+import SignIn from "./SignIn";
 
 const LandingPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const currentUser = useSelector((state: any) => state.auth.currentUser);
 
+  // Fetch SKUs and stores from Firebase Database
   useEffect(() => {
     dispatch(fetchSkus());
     dispatch(fetchStores());
   }, [dispatch]);
 
+  // Redirect to login if the user is not authenticated
   if (!currentUser) {
     return (
       <Routes>

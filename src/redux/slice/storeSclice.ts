@@ -16,6 +16,7 @@ const storeSlice = createSlice({
   name: "stores",
   initialState,
   reducers: {
+    // Set the stores data
     setStores: (state, action: PayloadAction<any[]>) => {
       state.loading = false;
       state.stores = action.payload;

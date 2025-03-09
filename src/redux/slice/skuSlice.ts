@@ -12,10 +12,12 @@ const initialState: SkuState = {
   error: null,
 };
 
+
 const skuSlice = createSlice({
   name: "skus",
   initialState,
   reducers: {
+    // Set the SKUs 
     setSkus: (state, action: PayloadAction<any[]>) => {
       state.loading = false;
       state.skus = action.payload;

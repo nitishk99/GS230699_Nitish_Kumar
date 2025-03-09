@@ -20,16 +20,24 @@ interface PlanningData {
 const cellStyle = {
   display: "flex",
   alignItems: "center",
+  color: "#555555",
+};
+
+const headerStyle = {
+  color: "grey",
+  textAlign: "center",
+  borderRight: "1px solid #e0e0e0",
 };
 
 const Planning = () => {
   const [rows, setRows] = useState<PlanningData[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
 
-  // Get the Redux store data
+  // Get the SKU and Stores data from Redux store data
   const skus = useSelector((state: RootState) => state.skus.skus);
   const stores = useSelector((state: RootState) => state.stores.stores);
 
+  // Create rows
   useEffect(() => {
     if (skus.length > 0 && stores.length > 0) {
       const mappedRows: PlanningData[] = [];
@@ -58,6 +66,7 @@ const Planning = () => {
     // eslint-disable-next-line
   }, []);
 
+  // Define month names
   const monthNames = [
     "Feb",
     "Mar",
@@ -73,6 +82,7 @@ const Planning = () => {
     "Jan",
   ];
 
+  // Create columns for each week of a month
   const generateWeekColumns = (weekNumber: number, monthName: string) => {
     const salesUnitsField = `salesUnitsWeek${weekNumber}${monthName}`;
     const salesDollarsField = `salesDollarsWeek${weekNumber}${monthName}`;
@@ -88,6 +98,7 @@ const Planning = () => {
         type: "number",
         valueParser: (params: { newValue: any }) => Number(params.newValue),
         cellStyle: cellStyle,
+        headerStyle: headerStyle,
       },
       {
         field: salesDollarsField,
@@ -101,6 +112,7 @@ const Planning = () => {
           `$ ${params.value?.toFixed(2)}`,
         width: 140,
         cellStyle: cellStyle,
+        headerStyle: headerStyle,
       },
       {
         field: gmDollarsField,
@@ -116,6 +128,7 @@ const Planning = () => {
           `$ ${params.value?.toFixed(2)}`,
         width: 140,
         cellStyle: cellStyle,
+        headerStyle: headerStyle,
       },
       {
         field: gmPercentField,
@@ -133,33 +146,65 @@ const Planning = () => {
         cellStyle: (params: { value: any }) => {
           const value = params.value;
           if (value >= 40) {
-            return { backgroundColor: "#3CB043", color: "black", ...cellStyle };
+            return { backgroundColor: "#3CB043", ...cellStyle };
           } else if (value >= 10) {
-            return { backgroundColor: "#FDD128", color: "black", ...cellStyle };
+            return { backgroundColor: "#FDD128", ...cellStyle };
           } else if (value > 5) {
-            return { backgroundColor: "#F98129", color: "black", ...cellStyle };
+            return { backgroundColor: "#F98129", ...cellStyle };
           } else if (value >= 0) {
-            return { backgroundColor: "#FF817E", color: "black", ...cellStyle };
+            return { backgroundColor: "#FF817E", ...cellStyle };
           }
         },
         width: 140,
+        headerStyle: headerStyle,
       },
     ];
   };
 
+  // Create columns for each month
   const generateMonthColumns = (monthName: string) => ({
     headerName: monthName,
+    headerStyle: headerStyle,
     children: [
-      { headerName: "Week 1", children: generateWeekColumns(1, monthName) },
-      { headerName: "Week 2", children: generateWeekColumns(2, monthName) },
-      { headerName: "Week 3", children: generateWeekColumns(3, monthName) },
-      { headerName: "Week 4", children: generateWeekColumns(4, monthName) },
+      {
+        headerName: "Week 1",
+        headerStyle: headerStyle,
+        children: generateWeekColumns(1, monthName),
+      },
+      {
+        headerName: "Week 2",
+        headerStyle: headerStyle,
+        children: generateWeekColumns(2, monthName),
+      },
+      {
+        headerName: "Week 3",
+        headerStyle: headerStyle,
+        children: generateWeekColumns(3, monthName),
+      },
+      {
+        headerName: "Week 4",
+        headerStyle: headerStyle,
+        children: generateWeekColumns(4, monthName),
+      },
     ],
   });
 
+  // Merge columns
   const mergeColumns = [
-    { field: "store", headerName: "Store", width: 140, cellStyle: cellStyle },
-    { field: "sku", headerName: "SKU", width: 140, cellStyle: cellStyle },
+    {
+      field: "store",
+      headerName: "Store",
+      width: 140,
+      cellStyle: cellStyle,
+      headerStyle: headerStyle,
+    },
+    {
+      field: "sku",
+      headerName: "SKU",
+      width: 140,
+      cellStyle: cellStyle,
+      headerStyle: headerStyle,
+    },
     ...monthNames.map((monthName) => generateMonthColumns(monthName)),
   ];
 

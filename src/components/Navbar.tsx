@@ -11,9 +11,9 @@ import { useDispatch } from "react-redux";
 import { clearUser } from "../redux/slice/authSlice";
 
 const Navbar = () => {
-
   const dispatch: AppDispatch = useDispatch();
 
+  // Handle user sign out
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -37,14 +37,28 @@ const Navbar = () => {
         <Typography variant="h6" noWrap component="div">
           <img src={logo} alt="Company Logo" style={{ height: "60px" }} />
         </Typography>
-        <Box sx={{ flexGrow: 1 }} />
-        <IconButton
-          size="large"
-          onClick={handleSignOut}
+        <Typography
+          variant="h4"
+          component="div"
+          sx={{
+            flexGrow: 1,
+            textAlign: "center",
+            fontWeight: "300",
+            color: "grey",
+          }}
         >
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          Data Viewer App
+        </Typography>
+        <IconButton size="large" onClick={handleSignOut}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <AccountCircleOutlinedIcon color="action" />
-            <Typography sx={{ fontSize: '12px' }}>Log out</Typography>
+            <Typography sx={{ fontSize: "12px" }}>Log out</Typography>
           </Box>
         </IconButton>
       </Toolbar>

@@ -3,6 +3,7 @@ import { setSkus } from "../slice/skuSlice";
 import { collection, getDocs } from "firebase/firestore";
 import { AppDispatch } from "../store";
 
+// Fetch SKU from Firebase db
 export const fetchSkus = () => {
   return async (dispatch: AppDispatch) => {
     try {

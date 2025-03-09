@@ -22,6 +22,7 @@ interface StoreRow {
 const cellStyle = {
   display: "flex",
   alignItems: "center",
+  color: "#555555",
 };
 
 const Store = () => {
@@ -31,20 +32,24 @@ const Store = () => {
   // Get stores from the Redux store
   const stores = useSelector((state: RootState) => state.stores.stores);
 
+  // Deleting a store
   const handleDelete = async (id: string) => {
     await deleteDoc(doc(firestore, "stores", id.toString()));
-    const updatedStores = stores.filter((store) => store.id !== id);
+    const updatedStores = stores.filter((store:any) => store.id !== id);
     dispatch(setStores(updatedStores));
   };
 
+  // Opening the add store dialog
   const handleOpen = () => {
     setOpen(true);
   };
 
+  // Closing the add store dialog
   const handleClose = () => {
     setOpen(false);
   };
 
+  // Adding a new store
   const handleAddStore = async (newRow: StoreRow) => {
     const docRef = await addDoc(collection(firestore, "stores"), newRow);
     const newEntry = { ...newRow, id: docRef.id };
@@ -53,6 +58,7 @@ const Store = () => {
     handleClose();
   };
 
+  // Create columns 
   const columns: any[] = [
     {
       field: "actions",
@@ -77,6 +83,7 @@ const Store = () => {
     { field: "state", headerName: "State", width: 140, cellStyle: cellStyle },
   ];
 
+  // Create fields for the add store form
   const fields = [
     { name: "store", label: "Store", type: "text" },
     { name: "city", label: "City", type: "text" },

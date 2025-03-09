@@ -17,6 +17,7 @@ const DataGrid = ({ rows, columns }: DataGridProps) => {
     return {
       initialWidth: 200,
       wrapHeaderText: true,
+      headerStyle: { color: "grey", borderRight: "1px solid #e0e0e0" }
     };
   }, []);
 
