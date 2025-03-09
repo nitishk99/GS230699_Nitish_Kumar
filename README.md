@@ -62,7 +62,7 @@ The `Planning` page displays planning data in a grid format. It dynamically gene
 
 ## Elements Done Well
 
-### Working with ag-Grid
+### Working with AG-Grid
 
 I worked with the ag-Grid npm package to create the data grid. This was a challenging part for me because I had never used ag-Grid before. It demonstrates my ability to quickly learn and implement new technologies.
 
