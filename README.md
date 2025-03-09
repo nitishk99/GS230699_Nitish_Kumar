@@ -2,6 +2,15 @@
 
 This project is a Data Viewer App built with React, Redux, Firebase, MUI, and TypeScript. It allows users to view and manage data related to stores and SKUs, and visualize planning data in a grid format.
 
+## Live Link
+
+[Data Viewer App](https://appdataviewer.netlify.app/)
+
+### Authentication
+
+- **Email:** nitish@gsynery.com
+- **Password:** nitish12345
+
 ## Available Scripts
 
 In the project directory, you can run:
