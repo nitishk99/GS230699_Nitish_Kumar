@@ -5,19 +5,24 @@ import { SkuStyles } from "./SkuStyles";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
-const Planning = () => {
-  interface PlanningData {
-    id: string;
-    storeId: string;
-    sku: string;
-    store: string;
-    price: string;
-    cost: string;
-    city: string;
-    state: string;
-    [key: string]: string | number | undefined;
-  }
+interface PlanningData {
+  id: string;
+  storeId: string;
+  sku: string;
+  store: string;
+  price: string;
+  cost: string;
+  city: string;
+  state: string;
+  [key: string]: string | number | undefined;
+}
 
+const cellStyle = {
+  display: "flex",
+  alignItems: "center",
+};
+
+const Planning = () => {
   const [rows, setRows] = useState<PlanningData[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
 
@@ -79,9 +84,10 @@ const Planning = () => {
         field: salesUnitsField,
         headerName: "Sales Units",
         editable: true,
-        width: 100,
+        width: 140,
         type: "number",
         valueParser: (params: { newValue: any }) => Number(params.newValue),
+        cellStyle: cellStyle,
       },
       {
         field: salesDollarsField,
@@ -92,8 +98,9 @@ const Planning = () => {
           return salesUnits * price;
         },
         valueFormatter: (params: { value: number }) =>
-          `$${params.value?.toFixed(2)}`,
-        width: 100,
+          `$ ${params.value?.toFixed(2)}`,
+        width: 140,
+        cellStyle: cellStyle,
       },
       {
         field: gmDollarsField,
@@ -106,8 +113,9 @@ const Planning = () => {
           return salesDollars - salesUnits * cost;
         },
         valueFormatter: (params: { value: number }) =>
-          `$${params.value?.toFixed(2)}`,
-        width: 100,
+          `$ ${params.value?.toFixed(2)}`,
+        width: 140,
+        cellStyle: cellStyle,
       },
       {
         field: gmPercentField,
@@ -121,20 +129,20 @@ const Planning = () => {
           return salesDollars ? (gmDollars / salesDollars) * 100 : 0;
         },
         valueFormatter: (params: { value: number }) =>
-          `${params.value?.toFixed(2)}%`,
+          `${params.value?.toFixed(2)} %`,
         cellStyle: (params: { value: any }) => {
           const value = params.value;
           if (value >= 40) {
-            return { backgroundColor: "#3CB043", color: "black" };
+            return { backgroundColor: "#3CB043", color: "black", ...cellStyle };
           } else if (value >= 10) {
-            return { backgroundColor: "#FDD128", color: "black" };
+            return { backgroundColor: "#FDD128", color: "black", ...cellStyle };
           } else if (value > 5) {
-            return { backgroundColor: "#F98129", color: "black" };
+            return { backgroundColor: "#F98129", color: "black", ...cellStyle };
           } else if (value >= 0) {
-            return { backgroundColor: "#FF817E", color: "black" };
+            return { backgroundColor: "#FF817E", color: "black", ...cellStyle };
           }
         },
-        width: 100,
+        width: 140,
       },
     ];
   };
@@ -150,8 +158,8 @@ const Planning = () => {
   });
 
   const mergeColumns = [
-    { field: "store", headerName: "Store", width: 100 },
-    { field: "sku", headerName: "SKU", width: 100 },
+    { field: "store", headerName: "Store", width: 140, cellStyle: cellStyle },
+    { field: "sku", headerName: "SKU", width: 140, cellStyle: cellStyle },
     ...monthNames.map((monthName) => generateMonthColumns(monthName)),
   ];
 

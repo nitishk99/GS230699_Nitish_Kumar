@@ -19,6 +19,11 @@ interface SkuRow {
   cost: string;
 }
 
+const cellStyle = {
+  display: "flex",
+  alignItems: "center",
+};
+
 const Sku = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
@@ -60,13 +65,13 @@ const Sku = () => {
           <DeleteOutlineOutlinedIcon color="action" />
         </IconButton>
       ),
-      width: 40,
-      editable: false,
+      width: 50,
+      cellStyle: cellStyle,
     },
 
-    { field: "sku", headerName: "SKU", width: 140, editable: true },
-    { field: "price", headerName: "Price", width: 140, editable: true },
-    { field: "cost", headerName: "Cost", width: 140, editable: true },
+    { field: "sku", headerName: "SKU", width: 140, cellStyle: cellStyle },
+    { field: "price", headerName: "Price", width: 140, cellStyle: cellStyle },
+    { field: "cost", headerName: "Cost", width: 140, cellStyle: cellStyle },
   ];
 
   const fields = [

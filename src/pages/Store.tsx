@@ -19,6 +19,11 @@ interface StoreRow {
   state: string;
 }
 
+const cellStyle = {
+  display: "flex",
+  alignItems: "center",
+};
+
 const Store = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
@@ -53,26 +58,23 @@ const Store = () => {
       field: "actions",
       headerName: "",
       cellRenderer: (params: any) => (
-        <IconButton
-          onClick={() => handleDelete(params.data.id)}
-          sx={{ color: "#BCBCBC", padding: 0, margin: 0 }}
-        >
+        <IconButton onClick={() => handleDelete(params.data.id)}>
           <DeleteOutlineOutlinedIcon color="action" />
         </IconButton>
       ),
-      width: 40,
+      width: 50,
       editable: false,
     },
     {
       field: "sno",
       headerName: "S.No",
       valueGetter: (params: any) => params.node.rowIndex + 1,
-      width: 60,
-      editable: false,
+      width: 70,
+      cellStyle: cellStyle,
     },
-    { field: "store", headerName: "Store", width: 140, editable: true },
-    { field: "city", headerName: "City", width: 140, editable: true },
-    { field: "state", headerName: "State", width: 140, editable: true },
+    { field: "store", headerName: "Store", width: 140, cellStyle: cellStyle },
+    { field: "city", headerName: "City", width: 140, cellStyle: cellStyle },
+    { field: "state", headerName: "State", width: 140, cellStyle: cellStyle },
   ];
 
   const fields = [

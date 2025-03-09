@@ -26,7 +26,9 @@ const DataGrid = ({ rows, columns }: DataGridProps) => {
         columnDefs={columns}
         rowData={rows}
         defaultColDef={defaultColDef}
-        headerHeight={50}
+        headerHeight={45}
+        rowNumbers={true}
+        rowHeight={40}
       />
     </Box>
   );

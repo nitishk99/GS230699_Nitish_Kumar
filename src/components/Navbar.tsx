@@ -1,24 +1,26 @@
-import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-// import AccountCircle from '@mui/icons-material/AccountCircle';
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import logo from "../assets/images/logo.svg";
 import Typography from "@mui/material/Typography";
-// import CssBaseline from '@mui/material/CssBaseline';
+import { signOut, auth } from "../config/FireBase";
+import { AppDispatch } from "../redux/store";
+import { useDispatch } from "react-redux";
+import { clearUser } from "../redux/slice/authSlice";
 
 const Navbar = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const dispatch: AppDispatch = useDispatch();
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      dispatch(clearUser());
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   return (
@@ -38,33 +40,13 @@ const Navbar = () => {
         <Box sx={{ flexGrow: 1 }} />
         <IconButton
           size="large"
-          edge="end"
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          onClick={handleMenu}
-          color="inherit"
+          onClick={handleSignOut}
         >
-          hhhhhh
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <AccountCircleOutlinedIcon color="action" />
+            <Typography sx={{ fontSize: '12px' }}>Log out</Typography>
+          </Box>
         </IconButton>
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem onClick={handleClose}>Sign In</MenuItem>
-          <MenuItem onClick={handleClose}>Sign Out</MenuItem>
-        </Menu>
       </Toolbar>
     </AppBar>
   );

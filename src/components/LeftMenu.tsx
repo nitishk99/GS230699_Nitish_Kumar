@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -10,35 +10,71 @@ import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
 import { LeftMenuStyles } from "./LeftMenuStyles";
 
 const LeftMenu = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+  };
+
   return (
     <Drawer sx={LeftMenuStyles.drawer} variant="permanent">
       <Box>
         <Toolbar />
         <List>
-          <ListItem component={Link} to="/store">
+          <ListItem
+            onClick={() => handleNavigation("/store")}
+            sx={{
+              cursor: "pointer",
+              backgroundColor:
+                location.pathname === "/store" ? "#DEDEDE" : "transparent",
+            }}
+          >
             <ListItemIcon sx={LeftMenuStyles.iconContainer}>
               <StoreOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary="Store" />
           </ListItem>
-          <ListItem component={Link} to="/sku">
+          <ListItem
+            onClick={() => handleNavigation("/sku")}
+            sx={{
+              cursor: "pointer",
+              backgroundColor:
+                location.pathname === "/sku" ? "#DEDEDE" : "transparent",
+            }}
+          >
             <ListItemIcon sx={LeftMenuStyles.iconContainer}>
               <PollOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary="SKU" />
           </ListItem>
-          <ListItem component={Link} to="/planning">
+          <ListItem
+            onClick={() => handleNavigation("/planning")}
+            sx={{
+              cursor: "pointer",
+              backgroundColor:
+                location.pathname === "/planning" ? "#DEDEDE" : "transparent",
+            }}
+          >
             <ListItemIcon sx={LeftMenuStyles.iconContainer}>
               <PollOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary="Planning" />
           </ListItem>
-          <ListItem component={Link} to="/chart">
+           {/* Feature not implemented yet
+           <ListItem
+            onClick={() => handleNavigation("/chart")}
+            sx={{
+              cursor: "pointer",
+              backgroundColor:
+                location.pathname === "/chart" ? "#DEDEDE" : "transparent",
+            }}
+          >
             <ListItemIcon sx={LeftMenuStyles.iconContainer}>
               <PollOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary="Charts" />
-          </ListItem>
+          </ListItem>  */}
         </List>
       </Box>
     </Drawer>

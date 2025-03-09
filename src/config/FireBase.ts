@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword, signOut as firebaseSignOut } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-//Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCl2tqk9JWqQBDA0M8Dg0jWwywTA7HGRSM",
   authDomain: "gsynergy-23.firebaseapp.com",
@@ -14,4 +15,28 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
+export const auth = getAuth(app);
+
+export const signIn = async (email: string, password: string) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    console.log("User signed in:", user);
+    return user;
+  } catch (error) {
+    console.error("Error signing in:", error);
+    throw error;
+  }
+};
+
+export const signOut = async (auth: any) => {
+  try {
+    await firebaseSignOut(auth);
+    console.log("User signed out");
+  } catch (error) {
+    console.error("Error signing out:", error);
+    throw error;
+  }
+};
+
 export default firestore;
