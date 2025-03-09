@@ -84,14 +84,6 @@ I implemented value calculation and formatting for sales dollars, GM dollars, an
 
 I would have implemented the optional items like charts page, CI/CD, test cases, etc.
 
-### Enhanced Error Handling
-
-I would add more robust error handling throughout the application to ensure a smoother user experience and better debugging capabilities.
-
-### Unit and Integration Tests
-
-I would write additional unit and integration tests to improve the test coverage and ensure the reliability of the application.
-
 ## Feedback
 
 The challenge was well-structured and covered a wide range of skills. One suggestion for improvement would be to provide more detailed requirements or constraints for certain tasks to help focus the implementation efforts. It was not clear in the planning page what the connection between stores and SKUs was. Additionally, the Excel file contained too many data sheets, which were hard to understand without proper explanation.
