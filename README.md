@@ -1,6 +1,6 @@
 # Data Viewer App
 
-This project is a Data Viewer App built with React, Redux, and Firebase. It allows users to view and manage data related to stores and SKUs, and visualize planning data in a grid format.
+This project is a Data Viewer App built with React, Redux, Firebase, MUI, and TypeScript. It allows users to view and manage data related to stores and SKUs, and visualize planning data in a grid format.
 
 ## Available Scripts
 
@@ -50,7 +50,7 @@ The Firebase configuration is located in `src/config/FireBase.ts`. Make sure to 
 
 ## Styling
 
-The project uses Material-UI for styling. Custom styles are defined in separate style files such as `AddNewDatatyles.ts`, `LeftMenuStyles.ts`, `NavbarStyles.ts`, `SkuStyles.ts`, and `StoreStyles.ts`.
+The project uses Material-UI (MUI) for styling. Custom styles are defined in separate style files such as `AddNewDatatyles.ts`, `LeftMenuStyles.ts`, `NavbarStyles.ts`, `SkuStyles.ts`, and `StoreStyles.ts`.
 
 ## Data Grid
 
@@ -62,7 +62,11 @@ The `Planning` page displays planning data in a grid format. It dynamically gene
 
 ## Elements Done Well
 
-### Working with AG-Grid
+### Reusable Components and Methods
+
+I created reusable components and methods to reduce code duplication and improve readability. This demonstrates my ability to write clean, maintainable, and efficient code.
+
+### Working with ag-Grid
 
 I worked with the ag-Grid npm package to create the data grid. This was a challenging part for me because I had never used ag-Grid before. It demonstrates my ability to quickly learn and implement new technologies.
 
