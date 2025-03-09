@@ -1,46 +1,93 @@
-# Getting Started with Create React App
+# Data Viewer App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a Data Viewer App built with React, Redux, and Firebase. It allows users to view and manage data related to stores and SKUs, and visualize planning data in a grid format.
 
 ## Available Scripts
 
 In the project directory, you can run:
 
+### `npm install`
+
+Installs all the dependencies required for the project.
+
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `npm run lint`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Runs ESLint to check for linting errors in the project.
 
-### `npm run eject`
+## Project Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### `src/components`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Contains reusable React components such as `AddNewData`, `DataGrid`, `LeftMenu`, and `Navbar`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### `src/config`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Contains configuration files for Firebase.
 
-## Learn More
+### `src/pages`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Contains the main pages of the application, including `LandingPage`, `SignIn`, `Store`, `Sku`, and `Planning`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### `src/redux`
+
+Contains Redux slices and thunks for managing application state.
+
+### `src/router`
+
+Contains routing configuration for the application.
+
+## Firebase Configuration
+
+The Firebase configuration is located in `src/config/FireBase.ts`. Make sure to replace the configuration with your own Firebase project details.
+
+## Styling
+
+The project uses Material-UI for styling. Custom styles are defined in separate style files such as `AddNewDatatyles.ts`, `LeftMenuStyles.ts`, `NavbarStyles.ts`, `SkuStyles.ts`, and `StoreStyles.ts`.
+
+## Data Grid
+
+The `DataGrid` component is used to display data in a tabular format. It is configured with columns and rows, and supports features like sorting, filtering, and editing.
+
+## Planning Page
+
+The `Planning` page displays planning data in a grid format. It dynamically generates columns for each week of a month and calculates values like sales dollars, GM dollars, and GM percentage.
+
+## Elements Done Well
+
+### Working with ag-Grid
+
+I worked with the ag-Grid npm package to create the data grid. This was a challenging part for me because I had never used ag-Grid before. It demonstrates my ability to quickly learn and implement new technologies.
+
+### Dynamic Column Generation
+
+I implemented dynamic column generation for each week of a month in the `Planning` page. This demonstrates my proficiency in handling dynamic data structures and creating flexible, reusable components.
+
+### Value Calculation and Formatting
+
+I implemented value calculation and formatting for sales dollars, GM dollars, and GM percentage. This showcases my ability to work with complex data transformations and present them in a user-friendly format.
+
+## Improvements with More Time
+
+### Optional Items
+
+I would have implemented the optional items like charts page, CI/CD, test cases, etc.
+
+### Enhanced Error Handling
+
+I would add more robust error handling throughout the application to ensure a smoother user experience and better debugging capabilities.
+
+### Unit and Integration Tests
+
+I would write additional unit and integration tests to improve the test coverage and ensure the reliability of the application.
+
+## Feedback
+
+The challenge was well-structured and covered a wide range of skills. One suggestion for improvement would be to provide more detailed requirements or constraints for certain tasks to help focus the implementation efforts. It was not clear in the planning page what the connection between stores and SKUs was. Additionally, the Excel file contained too many data sheets, which were hard to understand without proper explanation.
