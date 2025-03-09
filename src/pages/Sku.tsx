@@ -9,12 +9,14 @@ import firestore from "../config/FireBase";
 import { SkuStyles } from "./SkuStyles";
 import {
     collection,
-    getDocs,
     addDoc,
     deleteDoc,
     doc,
 } from "firebase/firestore";
 import IconButton from "@mui/material/IconButton";
+import { useDispatch, useSelector } from 'react-redux';
+import { setSkus } from '../redux/slice/skuSlice';
+import { RootState } from '../redux/store';
 
 interface SkuRow {
     id: string;
@@ -24,30 +26,16 @@ interface SkuRow {
 }
 
 const Sku = () => {
-    const [rows, setRows] = useState<SkuRow[]>([]);
     const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        const fetchSkuData = async () => {
-            const querySnapshot = await getDocs(collection(firestore, "sku"));
-            const skus = querySnapshot.docs.map((doc) => {
-                const data = doc.data();
-                return {
-                    id: doc.id,
-                    sku: data.sku,
-                    price: data.price,
-                    cost: data.cost,
-                } as SkuRow;
-            });
-            setRows(skus);
-        };
-
-        fetchSkuData();
-    }, []);
+    // Get skus from the Redux store
+    const skus = useSelector((state: RootState) => state.skus.skus);
 
     const handleDelete = async (id: string) => {
         await deleteDoc(doc(firestore, "sku", id));
-        setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+        const updatedSkus = skus.filter((sku) => sku.id !== id);
+        dispatch(setSkus(updatedSkus));
     };
 
     const handleOpen = () => {
@@ -61,7 +49,8 @@ const Sku = () => {
     const handleAddSku = async (newRow: SkuRow) => {
         const docRef = await addDoc(collection(firestore, "sku"), newRow);
         const newEntry = { ...newRow, id: docRef.id };
-        setRows([...rows, newEntry]);
+        const updatedSkus = [...skus, newEntry];
+        dispatch(setSkus(updatedSkus));
         handleClose();
     };
 
@@ -73,12 +62,13 @@ const Sku = () => {
                 <DeleteOutlineOutlinedIcon color="action" />
             </IconButton>
             ),
-            width: 40
+            width: 40,
+            editable: false,
         },
 
-        { field: "sku", headerName: "SKU", width: 140 },
-        { field: "price", headerName: "Price", width: 140 },
-        { field: "cost", headerName: "Cost", width: 140 },
+        { field: "sku", headerName: "SKU", width: 140, editable: true, },
+        { field: "price", headerName: "Price", width: 140, editable: true, },
+        { field: "cost", headerName: "Cost", width: 140, editable: true },
     ];
 
     const fields = [
@@ -91,7 +81,7 @@ const Sku = () => {
         <Box sx={SkuStyles.container}>
             <Box sx={SkuStyles.datagridContainer}>
                 <DataGrid
-                    rows={rows}
+                    rows={skus}
                     columns={columns}
                 />
             </Box>

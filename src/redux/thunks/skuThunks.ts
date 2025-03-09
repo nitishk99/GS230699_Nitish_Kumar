@@ -1,24 +1,22 @@
 import firestore from '../../config/FireBase';
 import {
-  fetchSkusRequest,
-  fetchSkusSuccess,
-  fetchSkusFailure,
-} from '../actions/skuAction';
+  setSkus,
+} from '../slice/skuSlice'; 
 import { collection, getDocs } from 'firebase/firestore';
+import { AppDispatch } from '../store';
 
 export const fetchSkus = () => {
-  return async (dispatch: any) => {
-    dispatch(fetchSkusRequest());
+  return async (dispatch: AppDispatch) => { 
     try {
       const skusCollection = collection(firestore, 'sku');
-      const snapshot = await getDocs(skusCollection); 
-      const skus = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })); 
-      dispatch(fetchSkusSuccess(skus));
+      const snapshot = await getDocs(skusCollection);
+      const skus = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      dispatch(setSkus(skus));
     } catch (error) {
       if (error instanceof Error) {
-        dispatch(fetchSkusFailure(error.message));
+        console.log(error.message);
       } else {
-        dispatch(fetchSkusFailure('An unknown error occurred'));
+        console.log('An unknown error occurred');
       }
     }
   };

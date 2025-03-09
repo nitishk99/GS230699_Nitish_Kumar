@@ -1,24 +1,22 @@
 import firestore from '../../config/FireBase';
 import {
-  fetchStoresRequest,
-  fetchStoresSuccess,
-  fetchStoresFailure,
-} from '../actions/storeAction';
+  setStores,
+} from '../slice/storeSclice'; 
 import { collection, getDocs } from 'firebase/firestore';
+import { AppDispatch } from '../store';
 
 export const fetchStores = () => {
-  return async (dispatch: any) => {
-    dispatch(fetchStoresRequest());
+  return async (dispatch: AppDispatch) => {
     try {
       const storesCollection = collection(firestore, 'stores');
       const snapshot = await getDocs(storesCollection);
       const stores = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      dispatch(fetchStoresSuccess(stores));
+      dispatch(setStores(stores));
     } catch (error) {
       if (error instanceof Error) {
-        dispatch(fetchStoresFailure(error.message));
+        console.log(error.message);
       } else {
-        dispatch(fetchStoresFailure('An unknown error occurred'));
+        console.log('An unknown error occurred');
       }
     }
   };

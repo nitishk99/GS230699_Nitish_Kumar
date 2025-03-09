@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import storeReducer from './reducers/storeReducer'; // Corrected import
-import skuReducer from './reducers/skuReducer';     // Corrected import
+import storeReducer from './slice/storeSclice';
+import skuReducer from './slice/skuSlice';
+import planningReducer from './slice/planinngSlice';
 
 const store = configureStore({
   reducer: {
     stores: storeReducer,
     skus: skuReducer,
+    planning: planningReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    serializableCheck: false, // Disable serializable check
+    serializableCheck: false,
   }),
 });
 

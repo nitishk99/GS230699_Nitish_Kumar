@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -9,11 +9,13 @@ import firestore from "../config/FireBase";
 import { StoreStyles } from "./StoreStyles";
 import {
     collection,
-    getDocs,
     addDoc,
     deleteDoc,
     doc,
 } from "firebase/firestore";
+import { useDispatch, useSelector } from 'react-redux';
+import { setStores } from "../redux/slice/storeSclice";
+import { RootState } from '../redux/store';
 
 interface StoreRow {
     id: string;
@@ -23,30 +25,16 @@ interface StoreRow {
 }
 
 const Store = () => {
-    const [rows, setRows] = useState<StoreRow[]>([]);
     const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        const fetchStoreData = async () => {
-            const querySnapshot = await getDocs(collection(firestore, "stores"));
-            const stores = querySnapshot.docs.map((doc) => {
-                const data = doc.data();
-                return {
-                    id: doc.id,
-                    store: data.store,
-                    city: data.city,
-                    state: data.state,
-                } as StoreRow;
-            });
-            setRows(stores);
-        };
-
-        fetchStoreData();
-    }, []);
+    // Get stores from the Redux store
+    const stores = useSelector((state: RootState) => state.stores.stores);
 
     const handleDelete = async (id: string) => {
         await deleteDoc(doc(firestore, "stores", id.toString()));
-        setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+        const updatedStores = stores.filter((store) => store.id !== id);
+        dispatch(setStores(updatedStores));
     };
 
     const handleOpen = () => {
@@ -60,12 +48,12 @@ const Store = () => {
     const handleAddStore = async (newRow: StoreRow) => {
         const docRef = await addDoc(collection(firestore, "stores"), newRow);
         const newEntry = { ...newRow, id: docRef.id };
-        setRows([...rows, newEntry]);
+        const updatedStores = [...stores, newEntry];
+        dispatch(setStores(updatedStores));
         handleClose();
     };
 
     const columns: any[] = [
-
         {
             field: "actions",
             headerName: "",
@@ -83,7 +71,7 @@ const Store = () => {
             width: 60,
             editable: false,
         },
-        { field: "store", headerName: "Store", width: 140, resizable: true, editable: true },
+        { field: "store", headerName: "Store", width: 140, editable: true },
         { field: "city", headerName: "City", width: 140, editable: true },
         { field: "state", headerName: "State", width: 140, editable: true },
 
@@ -99,7 +87,7 @@ const Store = () => {
         <Box sx={StoreStyles.container}>
             <Box sx={StoreStyles.datagridContainer}>
                 <DataGrid
-                    rows={rows}
+                    rows={stores}
                     columns={columns}
                 />
             </Box>

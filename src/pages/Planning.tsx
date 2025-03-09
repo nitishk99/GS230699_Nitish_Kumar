@@ -3,19 +3,19 @@ import Box from '@mui/material/Box';
 import DataGrid from '../components/DataGrid';
 import { SkuStyles } from "./SkuStyles";
 import { useSelector } from 'react-redux';
-import { RootState, } from '../redux/store';
-
+import { RootState } from '../redux/store';
 
 const Planning = () => {
     interface PlanningData {
         id: string;
+        storeId: string;
         sku: string;
         store: string;
         price: string;
         cost: string;
         city: string;
         state: string;
-        [key: string]: string | number;
+        [key: string]: string | number | undefined;
     }
 
     const [rows, setRows] = useState<PlanningData[]>([]);
@@ -33,6 +33,7 @@ const Planning = () => {
                     mappedRows.push({
                         id: `${store.id}-${sku.id}`,
                         store: store.store,
+                        storeId: store.id,
                         sku: sku.sku,
                         price: sku.price,
                         cost: sku.cost,
