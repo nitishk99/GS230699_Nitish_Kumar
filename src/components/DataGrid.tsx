@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo} from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -24,10 +24,6 @@ const DataGrid = ({ rows, columns }: DataGridProps) => {
             
         };
     }, []);
-
-    const gridOptions = useMemo(() => ({
-        getRowId: (params: any) => params.data.id,
-    }), []);
 
     return (
         <Box style={{ height: '100%', width: '100%' }}>
