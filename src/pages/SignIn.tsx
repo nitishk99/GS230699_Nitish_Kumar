@@ -10,7 +10,7 @@ import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { Card, SignInContainer } from "./SignInStyles";
+import { Card, SignInContainer, AuthBox } from "./SignInStyles";
 import logo from "../assets/images/logo.svg";
 
 const SignIn = () => {
@@ -113,6 +113,11 @@ const SignIn = () => {
             </Button>
           </Box>
         </Card>
+        <AuthBox>
+          <Typography variant="h6">Demo Authentication Details</Typography>
+          <Typography>Email: nitish@gsynery.com</Typography>
+          <Typography>Password: nitish12345</Typography>
+        </AuthBox>
       </SignInContainer>
     </Box>
   );
