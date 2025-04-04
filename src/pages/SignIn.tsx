@@ -115,7 +115,7 @@ const SignIn = () => {
         </Card>
         <AuthBox>
           <Typography variant="h6">Demo Authentication Details</Typography>
-          <Typography>Email: nitish@gsynery.com</Typography>
+          <Typography>Email: nitish@gmail.com</Typography>
           <Typography>Password: nitish12345</Typography>
         </AuthBox>
       </SignInContainer>
