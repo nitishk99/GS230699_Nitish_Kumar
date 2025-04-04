@@ -47,7 +47,7 @@ const Navbar = () => {
             color: "grey",
           }}
         >
-          Shop Mamager App
+          Store Mmager App
         </Typography>
         <IconButton size="large" onClick={handleSignOut}>
           <Box
