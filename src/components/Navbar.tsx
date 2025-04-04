@@ -47,7 +47,7 @@ const Navbar = () => {
             color: "grey",
           }}
         >
-          Store Mmager App
+          Store Manager App
         </Typography>
         <IconButton size="large" onClick={handleSignOut}>
           <Box
